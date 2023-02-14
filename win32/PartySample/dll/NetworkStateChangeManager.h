@@ -7,7 +7,7 @@ public:
     Initialize(
         OnPlayerJoinedCallback onPlayerJoinedCallback,
         OnPlayerChatIndicatorUpdatedCallback onPlayerChatIndicatorUpdatedCallback,
-        OnPlayerTextMessageReceivedCallback onPlayerTextMessageReceivedCallback,
+        OnPlayerNetworkBytesReceivedCallback onPlayerNetworkBytesReceivedCallback,
         OnPlayerVoiceTranscriptionReceivedCallback onPlayerVoiceTranscriptionReceivedCallback,
         OnPlayerLeftCallback onPlayerLeftCallback
         );
@@ -42,6 +42,11 @@ public:
         const std::string& message
         ) override;
 
+    void ProcessNetworkMessage(
+        const std::string& sender,
+        PartyString message
+        );
+
     // Called when a voice transcription is sent to the chat control.
     void ProcessVoiceMessage(
         const std::string& sender,
@@ -66,7 +71,8 @@ private:
     // Callbacks
     OnPlayerJoinedCallback m_onPlayerJoinedCallback{nullptr};
     OnPlayerChatIndicatorUpdatedCallback m_onPlayerChatIndicatorUpdatedCallback{nullptr};
-    OnPlayerTextMessageReceivedCallback m_onPlayerTextMessageReceivedCallback{nullptr};
+    OnPlayerTextMessageReceivedCallback m_onPlayerTextMessageReceivedCallback{ nullptr };
+    OnPlayerNetworkBytesReceivedCallback m_onPlayerNetworkBytesReceivedCallback{ nullptr };
     OnPlayerVoiceTranscriptionReceivedCallback m_onPlayerVoiceTranscriptionReceivedCallback{nullptr};
     OnPlayerLeftCallback m_onPlayerLeftCallback{nullptr};
 };

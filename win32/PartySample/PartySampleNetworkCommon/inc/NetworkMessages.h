@@ -10,7 +10,8 @@ namespace PartySample
     enum class NetworkMessageType
     {
         Unknown,
-        UserDisplayName
+        UserDisplayName,
+        GGPO
     };
 
     // The data class used to package the user display name for transfer as an endpoint message.

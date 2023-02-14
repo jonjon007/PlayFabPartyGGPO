@@ -14,7 +14,7 @@
 
 //#define USE_PUBLIC_PLAYFAB_SDK
 #ifndef USE_PUBLIC_PLAYFAB_SDK
-namespace PlayFab=PlayFabInternal;
+//namespace PlayFab=PlayFabInternal;
 #endif
 
 namespace PartySample

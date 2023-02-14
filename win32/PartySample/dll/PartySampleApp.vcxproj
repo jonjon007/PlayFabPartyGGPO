@@ -161,6 +161,7 @@
         $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

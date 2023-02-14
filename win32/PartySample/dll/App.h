@@ -5,7 +5,8 @@ extern "C"
     typedef void (__stdcall * LogCallback)(const char* system, const char* message);
     typedef void (__stdcall * OnPlayerJoinedCallback)(const char* entityId, const char* displayName);
     typedef void (__stdcall * OnPlayerChatIndicatorUpdatedCallback)(const char* entityId, bool isLocalChatIndicator, int32_t chatIndicator);
-    typedef void (__stdcall * OnPlayerTextMessageReceivedCallback)(const char* entityId, const char* textMessage);
+    typedef void(__stdcall* OnPlayerTextMessageReceivedCallback)(const char* entityId, const char* textMessage);
+    typedef void(__stdcall* OnPlayerNetworkBytesReceivedCallback)(const char* entityId, const char* msgBytes);
     typedef void (__stdcall * OnPlayerVoiceTranscriptionReceivedCallback)(const char* entityId, const char* voiceTranscription);
     typedef void (__stdcall * OnPlayerLeftCallback)(const char* entityId);
 
@@ -69,4 +70,9 @@ extern "C"
         const char* playerEntityId,
         bool isMuted
         );
+
+    __declspec(dllexport)
+        int
+        __stdcall
+        PartySampleApp_GetNetworkState();
 }

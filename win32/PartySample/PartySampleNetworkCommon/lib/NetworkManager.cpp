@@ -458,6 +458,17 @@ NetworkManager::SendNetworkMessage(
             },
         };
 
+        // TODO: Remove
+        auto messageBuffer = static_cast<const uint8_t*>(data->buffer);
+        NetworkMessage p{ std::vector<uint8_t>(messageBuffer, messageBuffer + data->bufferByteCount) };
+
+        std::string msg = p.StringValue();
+
+        const char* msgC = (const char*)(p.RawData().data());
+
+
+        // TODO: Remove above
+
         // Set delivery options for guaranteed and sequential delivery.
         PartySendMessageOptions deliveryOptions =
             PartySendMessageOptions::GuaranteedDelivery |
@@ -480,6 +491,17 @@ NetworkManager::SendNetworkMessage(
         }
     }
 }
+
+/*
+void
+NetworkManager::BroadcastNetworkMessage(
+    const std::vector<uint8_t>& data
+)
+{
+    NetworkMessage nm = NetworkMessage{ NetworkMessageType::GGPO, data };
+    BroadcastNetworkMessage(nm);
+}
+*/
 
 void
 NetworkManager::BroadcastNetworkMessage(
@@ -520,6 +542,10 @@ NetworkManager::SendTextMessage(
     PartyString chatText
     )
 {
+    NetworkMessage nm = NetworkMessage{ NetworkMessageType::GGPO, chatText };
+    BroadcastNetworkMessage(nm);
+    return;
+
     // Only send the text message if we've got a local chat control to send it with
     if (m_localChatControl == nullptr)
     {
@@ -999,6 +1025,25 @@ NetworkManager::DoWork()
                 else
                 {
                     DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
+                }
+            }
+            else if (packet.MessageType() == NetworkMessageType::GGPO)
+            {
+                // A user has sent their display name to us. We can register them as having joined the network with this information.
+                PartyString senderEntityId;
+                //err = result->
+                err = result->senderEndpoint->GetEntityId(&senderEntityId);
+
+                if (PARTY_SUCCEEDED(err))
+                {
+                    PartyString msg = (PartyString)packet.RawData().data();
+                    //const std::vector<uint8_t>& messageBytes = packet.Serialize();
+                    //const char* me = (const char*)packet.RawData().data();
+                    HandleIncomingNetworkMessage(senderEntityId, msg);
+                }
+                else
+                {
+                    //DEBUGLOG("GetEntityId failed: %s\n", GetErrorMessage(err));
                 }
             }
             else
@@ -1686,7 +1731,7 @@ void NetworkManager::HandlePlayerJoined(
 void NetworkManager::HandleIncomingTextMessage(
     const std::string& senderPlayerEntityId,
     const std::string& message
-    )
+)
 {
     // Drop all text messages from players that haven't sent us their display name yet.
     if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
@@ -1695,6 +1740,20 @@ void NetworkManager::HandleIncomingTextMessage(
     }
 
     Managers::Get<INetworkStateChangeManager>()->ProcessTextMessage(senderPlayerEntityId, message);
+}
+
+void NetworkManager::HandleIncomingNetworkMessage(
+    const std::string& senderPlayerEntityId,
+    PartyString message
+    )
+{
+    // Drop all text messages from players that haven't sent us their display name yet.
+    if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
+    {
+        return;
+    }
+
+    Managers::Get<INetworkStateChangeManager>()->ProcessNetworkMessage(senderPlayerEntityId, message);
 }
 
 void NetworkManager::HandleIncomingVoiceTranscription(

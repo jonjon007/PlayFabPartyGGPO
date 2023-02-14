@@ -41,6 +41,7 @@ namespace PartySample
         void SendNetworkMessage(uint32_t targetCount, Party::PartyEndpoint** targets, const NetworkMessage& message);
         // Broadcasts an endpoint message containing non chat information.
         void BroadcastNetworkMessage(const NetworkMessage& message);
+        // void BroadcastNetworkMessage(const std::vector<uint8_t>& data);
         // Sends a message as a synthesized voice message to all available chat controls.
         void SendTextAsVoice(std::string text);
         // Sends a message as plain text to all available chat controls.
@@ -118,6 +119,11 @@ namespace PartySample
             const std::string& senderPlayerEntityId,
             const std::string& message
             );
+
+        void HandleIncomingNetworkMessage(
+            const std::string& senderPlayerEntityId,
+            const char* message
+        );
 
         void HandleIncomingVoiceTranscription(
             const std::string& senderPlayerEntityId,

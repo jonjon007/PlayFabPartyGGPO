@@ -20,6 +20,7 @@ namespace PartySample
 
         // Called when a text chat message is sent to the chat control.
         virtual void ProcessTextMessage(const std::string& sender, const std::string& message) = 0;
+        virtual void ProcessNetworkMessage(const std::string& sender, PartyString message) = 0;
 
         // Called when a voice transcription is sent to the chat control.
         virtual void ProcessVoiceMessage(const std::string& sender, const std::string& message) = 0;

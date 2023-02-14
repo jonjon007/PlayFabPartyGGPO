@@ -168,11 +168,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>
-        $(ProjectDir)..\PartySampleNetworkCommon\inc;
-        $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include;
-        %(AdditionalIncludeDirectories)
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\PartySampleNetworkCommon\inc; $(ProjectDir)..\..\ext\playfabxplatsdk\src\cppsdk\include; C:\Users\jonma\PlayFabParty\win32\PartySample\PartySampleNetworkCommon\inc; C:\Users\jonma\PlayFabParty\win32\ext\playfabxplatsdk\src\cppsdk\include; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

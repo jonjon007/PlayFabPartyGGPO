@@ -45,7 +45,7 @@ PartySampleApp_Initialize(
     const char* playFabPlayerCustomId,
     OnPlayerJoinedCallback onPlayerJoinedCallback,
     OnPlayerChatIndicatorUpdatedCallback onPlayerChatIndicatorUpdatedCallback,
-    OnPlayerTextMessageReceivedCallback onPlayerTextMessageReceivedCallback,
+    OnPlayerNetworkBytesReceivedCallback onPlayerNetworkBytesReceivedCallback,
     OnPlayerVoiceTranscriptionReceivedCallback onPlayerVoiceTranscriptionReceivedCallback,
     OnPlayerLeftCallback onPlayerLeftCallback
     )
@@ -55,7 +55,7 @@ PartySampleApp_Initialize(
     PartySample::Managers::Get<NetworkStateChangeManager>()->Initialize(
         onPlayerJoinedCallback,
         onPlayerChatIndicatorUpdatedCallback,
-        onPlayerTextMessageReceivedCallback,
+        onPlayerNetworkBytesReceivedCallback,
         onPlayerVoiceTranscriptionReceivedCallback,
         onPlayerLeftCallback);
     PartySample::Managers::Get<PartySample::PlayFabManager>()->Initialize(playFabTitleId);
@@ -267,6 +267,16 @@ PartySampleApp_SendChatText(
 __declspec(dllexport)
 void
 __stdcall
+PartySampleApp_SendNetworkBytes(
+    const std::vector<uint8_t>& data
+)
+{
+    PartySample::Managers::Get<PartySample::NetworkManager>()->BroadcastNetworkMessage(data);
+}
+
+__declspec(dllexport)
+void
+__stdcall
 PartySampleApp_SynthesizeTextToSpeech(
     const char* textToSynthesize
     )
@@ -291,4 +301,11 @@ PartySampleApp_SetPlayerMute(
     {
         PartySample::Managers::Get<PartySample::NetworkManager>()->SetRemotePlayerMuted(playerEntityId, isMuted);
     }
+}
+
+__declspec(dllexport)
+int
+__stdcall
+PartySampleApp_GetNetworkState() {
+    return (int)PartySample::Managers::Get<PartySample::NetworkManager>()->State();
 }

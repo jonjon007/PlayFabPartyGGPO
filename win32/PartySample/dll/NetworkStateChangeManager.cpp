@@ -4,14 +4,14 @@ void
 NetworkStateChangeManager::Initialize(
     OnPlayerJoinedCallback onPlayerJoinedCallback,
     OnPlayerChatIndicatorUpdatedCallback onPlayerChatIndicatorUpdatedCallback,
-    OnPlayerTextMessageReceivedCallback onPlayerTextMessageReceivedCallback,
+    OnPlayerNetworkBytesReceivedCallback onPlayerNetworkBytesReceivedCallback,
     OnPlayerVoiceTranscriptionReceivedCallback onPlayerVoiceTranscriptionReceivedCallback,
     OnPlayerLeftCallback onPlayerLeftCallback
     )
 {
     m_onPlayerJoinedCallback = onPlayerJoinedCallback;
     m_onPlayerChatIndicatorUpdatedCallback = onPlayerChatIndicatorUpdatedCallback;
-    m_onPlayerTextMessageReceivedCallback = onPlayerTextMessageReceivedCallback;
+    m_onPlayerNetworkBytesReceivedCallback = onPlayerNetworkBytesReceivedCallback;
     m_onPlayerVoiceTranscriptionReceivedCallback = onPlayerVoiceTranscriptionReceivedCallback;
     m_onPlayerLeftCallback = onPlayerLeftCallback;
 }
@@ -49,7 +49,21 @@ NetworkStateChangeManager::ProcessTextMessage(
     const std::string& message
     )
 {
+    // TODO: Encoding here!
     m_onPlayerTextMessageReceivedCallback(sender.c_str(), message.c_str());
+}
+
+// Called when a text chat message is sent to the chat control.
+void
+NetworkStateChangeManager::ProcessNetworkMessage(
+    const std::string& sender,
+    PartyString message
+)
+{
+    // TODO: Encoding here!
+    //const uint8_t* me = message.data();
+    m_onPlayerNetworkBytesReceivedCallback(sender.c_str(), message);
+    //m_onPlayerTextMessageReceivedCallback(sender.c_str(), message.data());
 }
 
 // Called when a voice transcription is sent to the chat control.
