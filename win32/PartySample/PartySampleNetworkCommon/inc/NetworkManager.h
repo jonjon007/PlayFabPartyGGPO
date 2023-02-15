@@ -40,6 +40,7 @@ namespace PartySample
         // Sends an endpoint message containing non chat information.
         void SendNetworkMessage(uint32_t targetCount, Party::PartyEndpoint** targets, const NetworkMessage& message);
         // Broadcasts an endpoint message containing non chat information.
+        void BroadcastNetworkMessage(const char* chatText, int len);
         void BroadcastNetworkMessage(const NetworkMessage& message);
         // void BroadcastNetworkMessage(const std::vector<uint8_t>& data);
         // Sends a message as a synthesized voice message to all available chat controls.

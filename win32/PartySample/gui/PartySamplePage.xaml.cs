@@ -388,6 +388,9 @@ namespace PartySample
         private static extern void PartySampleApp_SendChatText(string chatText);
 
         [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern void PartySampleApp_SendNetworkMessage(string chatText, int len);
+
+        [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void PartySampleApp_SynthesizeTextToSpeech(string textToSynthesize);
 
         [DllImport("PartySampleApp.dll", CallingConvention = CallingConvention.StdCall)]

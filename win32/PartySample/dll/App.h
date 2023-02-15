@@ -59,6 +59,14 @@ extern "C"
     __declspec(dllexport)
     void
     __stdcall
+    PartySampleApp_SendNetworkMessage(
+        const char* chatText,
+        int len
+        );
+
+    __declspec(dllexport)
+    void
+    __stdcall
     PartySampleApp_SynthesizeTextToSpeech(
         const char* textToSynthesize
         );

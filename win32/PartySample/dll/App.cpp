@@ -267,11 +267,12 @@ PartySampleApp_SendChatText(
 __declspec(dllexport)
 void
 __stdcall
-PartySampleApp_SendNetworkBytes(
-    const std::vector<uint8_t>& data
+PartySampleApp_SendNetworkMessage(
+    const char* chatText,
+    int len
 )
 {
-    PartySample::Managers::Get<PartySample::NetworkManager>()->BroadcastNetworkMessage(data);
+    PartySample::Managers::Get<PartySample::NetworkManager>()->BroadcastNetworkMessage(chatText, len);
 }
 
 __declspec(dllexport)

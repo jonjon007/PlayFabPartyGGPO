@@ -505,6 +505,20 @@ NetworkManager::BroadcastNetworkMessage(
 
 void
 NetworkManager::BroadcastNetworkMessage(
+    const char* chatText,
+    int len
+)
+{
+    uint8_t* buffer = new uint8_t[len];
+    memcpy(buffer, chatText, len);
+
+    auto messageBuffer = static_cast<const uint8_t*>(buffer);
+    NetworkMessage nm{ NetworkMessageType::GGPO, std::vector<uint8_t>(messageBuffer, messageBuffer + len) };
+    BroadcastNetworkMessage(nm);
+}
+
+void
+NetworkManager::BroadcastNetworkMessage(
     const NetworkMessage& message
     )
 {
@@ -1011,6 +1025,8 @@ NetworkManager::DoWork()
             auto messageBuffer = static_cast<const uint8_t*>(result->messageBuffer);
             NetworkMessage packet { std::vector<uint8_t>(messageBuffer, messageBuffer + result->messageSize) };
 
+            // TODO: Test passing network message before sending to ProcessNetworkMessage
+
             if (packet.MessageType() == NetworkMessageType::UserDisplayName)
             {
                 // A user has sent their display name to us. We can register them as having joined the network with this information.
@@ -1036,10 +1052,10 @@ NetworkManager::DoWork()
 
                 if (PARTY_SUCCEEDED(err))
                 {
-                    PartyString msg = (PartyString)packet.RawData().data();
-                    //const std::vector<uint8_t>& messageBytes = packet.Serialize();
-                    //const char* me = (const char*)packet.RawData().data();
-                    HandleIncomingNetworkMessage(senderEntityId, msg);
+                    unsigned __int64 dataSize = result->messageSize - sizeof(NetworkMessageType);
+                    char* msg = new char[dataSize];//init this with the correct size
+                    memcpy(msg, packet.RawData().data(), dataSize);
+                    HandleIncomingNetworkMessage(senderEntityId, static_cast<PartyString>(msg));
                 }
                 else
                 {
