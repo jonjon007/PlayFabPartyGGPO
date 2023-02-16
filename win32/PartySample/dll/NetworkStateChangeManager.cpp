@@ -49,21 +49,17 @@ NetworkStateChangeManager::ProcessTextMessage(
     const std::string& message
     )
 {
-    // TODO: Encoding here!
     m_onPlayerTextMessageReceivedCallback(sender.c_str(), message.c_str());
 }
 
-// Called when a text chat message is sent to the chat control.
+// Called when a network message is sent to the chat control.
 void
 NetworkStateChangeManager::ProcessNetworkMessage(
     const std::string& sender,
     PartyString message
 )
 {
-    // TODO: Encoding here!
-    //const uint8_t* me = message.data();
     m_onPlayerNetworkBytesReceivedCallback(sender.c_str(), message);
-    //m_onPlayerTextMessageReceivedCallback(sender.c_str(), message.data());
 }
 
 // Called when a voice transcription is sent to the chat control.

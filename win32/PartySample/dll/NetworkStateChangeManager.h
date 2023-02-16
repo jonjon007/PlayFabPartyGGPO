@@ -71,8 +71,8 @@ private:
     // Callbacks
     OnPlayerJoinedCallback m_onPlayerJoinedCallback{nullptr};
     OnPlayerChatIndicatorUpdatedCallback m_onPlayerChatIndicatorUpdatedCallback{nullptr};
-    OnPlayerTextMessageReceivedCallback m_onPlayerTextMessageReceivedCallback{ nullptr };
-    OnPlayerNetworkBytesReceivedCallback m_onPlayerNetworkBytesReceivedCallback{ nullptr };
+    OnPlayerTextMessageReceivedCallback m_onPlayerTextMessageReceivedCallback{nullptr};
+    OnPlayerNetworkBytesReceivedCallback m_onPlayerNetworkBytesReceivedCallback{nullptr};
     OnPlayerVoiceTranscriptionReceivedCallback m_onPlayerVoiceTranscriptionReceivedCallback{nullptr};
     OnPlayerLeftCallback m_onPlayerLeftCallback{nullptr};
 };

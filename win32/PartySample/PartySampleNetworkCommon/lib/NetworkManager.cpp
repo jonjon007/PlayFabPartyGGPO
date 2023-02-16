@@ -458,17 +458,6 @@ NetworkManager::SendNetworkMessage(
             },
         };
 
-        // TODO: Remove
-        auto messageBuffer = static_cast<const uint8_t*>(data->buffer);
-        NetworkMessage p{ std::vector<uint8_t>(messageBuffer, messageBuffer + data->bufferByteCount) };
-
-        std::string msg = p.StringValue();
-
-        const char* msgC = (const char*)(p.RawData().data());
-
-
-        // TODO: Remove above
-
         // Set delivery options for guaranteed and sequential delivery.
         PartySendMessageOptions deliveryOptions =
             PartySendMessageOptions::GuaranteedDelivery |
@@ -491,17 +480,6 @@ NetworkManager::SendNetworkMessage(
         }
     }
 }
-
-/*
-void
-NetworkManager::BroadcastNetworkMessage(
-    const std::vector<uint8_t>& data
-)
-{
-    NetworkMessage nm = NetworkMessage{ NetworkMessageType::GGPO, data };
-    BroadcastNetworkMessage(nm);
-}
-*/
 
 void
 NetworkManager::BroadcastNetworkMessage(
@@ -556,6 +534,7 @@ NetworkManager::SendTextMessage(
     PartyString chatText
     )
 {
+    // TODO: Move this to a new method, other than SendTextMessage
     NetworkMessage nm = NetworkMessage{ NetworkMessageType::GGPO, chatText };
     BroadcastNetworkMessage(nm);
     return;
@@ -1024,8 +1003,6 @@ NetworkManager::DoWork()
             // Convert the data buffer into a network message
             auto messageBuffer = static_cast<const uint8_t*>(result->messageBuffer);
             NetworkMessage packet { std::vector<uint8_t>(messageBuffer, messageBuffer + result->messageSize) };
-
-            // TODO: Test passing network message before sending to ProcessNetworkMessage
 
             if (packet.MessageType() == NetworkMessageType::UserDisplayName)
             {
@@ -1747,7 +1724,7 @@ void NetworkManager::HandlePlayerJoined(
 void NetworkManager::HandleIncomingTextMessage(
     const std::string& senderPlayerEntityId,
     const std::string& message
-)
+    )
 {
     // Drop all text messages from players that haven't sent us their display name yet.
     if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
@@ -1763,7 +1740,7 @@ void NetworkManager::HandleIncomingNetworkMessage(
     PartyString message
     )
 {
-    // Drop all text messages from players that haven't sent us their display name yet.
+    // Drop all network messages from players that haven't sent us their display name yet.
     if (m_remotePlayers.find(senderPlayerEntityId) == m_remotePlayers.end())
     {
         return;
