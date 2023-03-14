@@ -460,7 +460,7 @@ NetworkManager::SendNetworkMessage(
 
         // Set delivery options for guaranteed and sequential delivery.
         PartySendMessageOptions deliveryOptions =
-            PartySendMessageOptions::GuaranteedDelivery |
+            PartySendMessageOptions::BestEffortDelivery |
             PartySendMessageOptions::SequentialDelivery;
 
         // Send out the message to all other peers
